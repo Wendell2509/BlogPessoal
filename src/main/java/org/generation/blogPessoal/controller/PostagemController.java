@@ -30,7 +30,7 @@ public class PostagemController {
 		return ResponseEntity.ok(repository.findAll());
 	}
 
-	@GetMapping("/id/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<Postagem> GetById(@PathVariable long id) {
 		return repository.findById(id)
 				.map(resp -> ResponseEntity.ok(resp))
@@ -42,17 +42,17 @@ public class PostagemController {
 		return ResponseEntity.ok(repository.findAllByTituloContainingIgnoreCase(titulo));
 	}
 	
-	@PostMapping
+	@PostMapping("/save")
 	public ResponseEntity<Postagem> post (@RequestBody Postagem postagem){
 		 return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(postagem));
 	}
 	
-	@PutMapping
+	@PutMapping("/update")
 	public ResponseEntity<Postagem> put (@RequestBody Postagem postagem){
 		 return ResponseEntity.status(HttpStatus.OK).body(repository.save(postagem));
 	}
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/delete/{id}")
 	public void delete(@PathVariable long id) {
 		repository.deleteById(id);
 	}
