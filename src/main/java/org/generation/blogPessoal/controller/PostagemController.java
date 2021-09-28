@@ -27,35 +27,50 @@ public class PostagemController {
 
 	@GetMapping("/all")
 	public ResponseEntity<List<Postagem>> GetAll() {
-		return ResponseEntity.ok(repository.findAll());
+		List<Postagem> objetoLista = repository.findAll();
+
+		if (objetoLista.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		} else {
+
+			return ResponseEntity.ok(repository.findAll());
+		}
 	}
+
+	/*
+	 * >>BOAZ CODE GET MAPPING<<
+	 * 
+	 * @GetMapping("/todes") public ResponseEntity<List<Usuario>> pegarTodes(){
+	 * List<Usuario> objetoLista = repositorio.findAll();
+	 * 
+	 * if (objetoLista.isEmpty()) { return ResponseEntity.status(204).build(); //204
+	 * > no content } else { return ResponseEntity.status(200).body(objetoLista);
+	 * //200 > ok } }
+	 */
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Postagem> GetById(@PathVariable long id) {
-		return repository.findById(id)
-				.map(resp -> ResponseEntity.ok(resp))
-				.orElse(ResponseEntity.notFound().build());
+		return repository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.notFound().build());
 	}
-	
-	@GetMapping("titulo/{titulo}")		
-	public ResponseEntity<List<Postagem>> GetByTitulo(@PathVariable String titulo){
+
+	@GetMapping("titulo/{titulo}")
+	public ResponseEntity<List<Postagem>> GetByTitulo(@PathVariable String titulo) {
 		return ResponseEntity.ok(repository.findAllByTituloContainingIgnoreCase(titulo));
 	}
-	
+
 	@PostMapping("/save")
-	public ResponseEntity<Postagem> post (@RequestBody Postagem postagem){
-		 return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(postagem));
+	public ResponseEntity<Postagem> post(@RequestBody Postagem postagem) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(postagem));
 	}
-	
+
 	@PutMapping("/update")
-	public ResponseEntity<Postagem> put (@RequestBody Postagem postagem){
-		 return ResponseEntity.status(HttpStatus.OK).body(repository.save(postagem));
+	public ResponseEntity<Postagem> put(@RequestBody Postagem postagem) {
+		return ResponseEntity.status(HttpStatus.OK).body(repository.save(postagem));
 	}
-	
+
 	@DeleteMapping("/delete/{id}")
 	public void delete(@PathVariable long id) {
 		repository.deleteById(id);
 	}
-	
-	
+
 }
