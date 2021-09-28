@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = "*",allowedHeaders = "*")
-@RequestMapping("/tema")
+@RequestMapping("/temas")
 public class TemaController {
 
 	@Autowired 
 	private TemaRepository repository;
 	
-	@GetMapping
+	@GetMapping("/all")
 	public ResponseEntity<List<Tema>> getAll(){
 		List<Tema> temaLista = repository.findAll();
 
@@ -43,9 +43,9 @@ public class TemaController {
 				.orElse(ResponseEntity.notFound().build());
 	}
 	
-	@GetMapping("/nome/{nome}")
-	public ResponseEntity<List<Tema>> getByName(String nome){
-		return ResponseEntity.ok(repository.findAllByDescricaoContainingIgnoreCase(nome));
+	@GetMapping("/descricao/{descricao}")
+	public ResponseEntity<List<Tema>> getByDescription(@PathVariable String descricao){
+		return ResponseEntity.ok(repository.findAllByDescricaoContainingIgnoreCase(descricao));
 		
 	}
 	

@@ -26,7 +26,7 @@ public class PostagemController {
 	private PostagemRepository repository;
 
 	@GetMapping("/all")
-	public ResponseEntity<List<Postagem>> GetAll() {
+	public ResponseEntity<List<Postagem>> getAll() {
 		List<Postagem> objetoLista = repository.findAll();
 
 		if (objetoLista.isEmpty()) {
@@ -48,7 +48,7 @@ public class PostagemController {
 	 */
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Postagem> GetById(@PathVariable long id) {
+	public ResponseEntity<Postagem> getById(@PathVariable long id) {
 		return repository.findById(id)
 				.map(resp -> ResponseEntity.ok(resp))
 				.orElse(ResponseEntity.notFound().build());
@@ -67,8 +67,8 @@ public class PostagemController {
 		}
 	}*/
 
-	@GetMapping("titulo/{titulo}")
-	public ResponseEntity<List<Postagem>> GetByTitulo(@PathVariable String titulo) {
+	@GetMapping("/titulo/{titulo}")
+	public ResponseEntity<List<Postagem>> getByTitulo(@PathVariable String titulo) {
 		return ResponseEntity.ok(repository.findAllByTituloContainingIgnoreCase(titulo));
 	}
 
