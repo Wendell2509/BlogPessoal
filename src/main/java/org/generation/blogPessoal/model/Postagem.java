@@ -15,6 +15,13 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * Classe espelho da tabela postagem no banco db_blogpessoal.
+ * 
+ * @author Wendell
+ * @since 1.0
+ */
+
 @Entity
 @Table(name = "postagem")
 
@@ -35,7 +42,7 @@ public class Postagem {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date date = new java.sql.Date(System.currentTimeMillis());
 
-	@ManyToOne 
+	@ManyToOne
 	@JsonIgnoreProperties("postagem")
 	private Tema tema;
 

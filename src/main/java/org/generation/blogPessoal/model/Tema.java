@@ -13,14 +13,21 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+/**
+ * Classe espelho da tabela tema no banco db_blogpessoal.
+ * 
+ * @author Wendell
+ * @since 1.0 *
+ */
+
 @Entity
 @Table(name = "tb_tema")
 public class Tema {
 
 	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) long id;
-	
+
 	private @NotNull String descricao;
-	
+
 	@OneToMany(mappedBy = "tema", cascade = CascadeType.ALL)
 	@JsonIgnoreProperties("tema")
 	private List<Postagem> postagem;
