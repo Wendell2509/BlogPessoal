@@ -1,33 +1,41 @@
 package org.generation.blogPessoal.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
-@Table(name = "tb_usuario")
+@Table(name = "usuarios")
 public class Usuario {
 
-	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) Long idUsuario;
-	private @NotBlank String nome;
-	private @Email String email;
-	private @NotBlank @Size(min = 5 , max = 100 ) String senha;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id;
 	
-	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE )
-	@JsonIgnoreProperties("usuario")
-	private List<Postagem> postagens = new ArrayList<>();
+	@NotNull
+	@Size(min = 5, max = 100)
+	private String nome;
+	
+	@NotNull
+	@Size(min = 5, max = 100)
+	private String usuario;
+	
+	@NotNull
+	@Size(min = 5)
+	private String senha;
+	
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public String getNome() {
 		return nome;
@@ -37,12 +45,12 @@ public class Usuario {
 		this.nome = nome;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getUsuario() {
+		return usuario;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getSenha() {
@@ -52,23 +60,5 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-
-	public Long getIdUsuario() {
-		return idUsuario;
-	}
-
-	public void setIdUsuario(Long idUsuario) {
-		this.idUsuario = idUsuario;
-	}
-
-	public List<Postagem> getPostagens() {
-		return postagens;
-	}
-
-	public void setPostagens(List<Postagem> postagens) {
-		this.postagens = postagens;
-	}
-
 	
 }
-
