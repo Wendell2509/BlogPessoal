@@ -59,16 +59,17 @@ public class Usuario {
 		this.senha = senha;
 		this.dataNascimento = dataNascimento;
 	}
-
-	// Segundo método Construtor - Sem os atributos
-	public Usuario() {
-	}
-
+	
 	// Terceiro método Construtor - Apenas email e senha
 	public Usuario(@NotNull String usuario, @NotNull String senha) {
 		this.usuario = usuario;
 		this.senha = senha;
 	}
+
+	// Segundo método Construtor - Sem os atributos
+	public Usuario() {
+	}
+
 
 	public long getId() {
 		return id;
