@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @RequestMapping("/postagens")
@@ -36,46 +37,29 @@ public class PostagemController {
 		}
 	}
 
-	/*
-	 * >>BOAZ CODE GET MAPPING ALL<<
-	 * 
-	 * @GetMapping("/todes") public ResponseEntity<List<Usuario>> pegarTodes(){
-	 * List<Usuario> objetoLista = repositorio.findAll();
-	 * 
-	 * if (objetoLista.isEmpty()) { return ResponseEntity.status(204).build(); //204
-	 * > no content } else { return ResponseEntity.status(200).body(objetoLista);
-	 * //200 > ok } }
-	 */
-
 	@GetMapping("/{id}")
 	public ResponseEntity<Postagem> getById(@PathVariable long id) {
-		return repository.findById(id)
-				.map(resp -> ResponseEntity.ok(resp))
-				.orElse(ResponseEntity.notFound().build());
+		return repository.findById(id).map(resp -> ResponseEntity.status(200).body(resp)).orElseThrow(() -> {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+					"ID inexistente, passe um ID valido para pesquisa!");
+		});
+
 	}
-	
-	/*
-	 * >>BOAZ GET MAPPING ID<<
-	 @GetMapping("/{id_usuario}")
-	public ResponseEntity<Usuario> pegarPorId(@PathVariable(value = "id_usuario") Long idUsuario ){
-		Optional<Usuario> objetoOptional = repositorio.findById(idUsuario);
-		
-		if (objetoOptional.isPresent()) {
-			return ResponseEntity.status(200).body(objetoOptional.get());
-		} else {
-			return ResponseEntity.status(204).build();
-		}
-	}*/
 
 	@GetMapping("/titulo/{titulo}")
 	public ResponseEntity<List<Postagem>> getByTitulo(@PathVariable String titulo) {
-		return ResponseEntity.ok(repository.findAllByTituloContainingIgnoreCase(titulo));
+		List<Postagem> postagemLista = repository.findAllByTituloContainingIgnoreCase(titulo);
+		
+		if(postagemLista.isEmpty()){
+			return ResponseEntity.noContent().build();
+		}else {
+			return ResponseEntity.ok(repository.findAll());
+		}
 	}
 
 	@PostMapping("/save")
 	public ResponseEntity<Postagem> post(@RequestBody Postagem postagem) {
-		return ResponseEntity.status(HttpStatus.CREATED)
-				.body(repository.save(postagem));
+		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(postagem));
 	}
 
 	@PutMapping("/update")
