@@ -1,6 +1,7 @@
 package org.generation.blogPessoal.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -26,11 +27,9 @@ import io.swagger.annotations.ApiModelProperty;
 @Table(name = "tb_usuarios")
 public class Usuario {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private @Id @GeneratedValue(strategy = GenerationType.IDENTITY) long id;
 
-	@NotNull(message = "O atributo nome é obrigatório")
+	@NotBlank(message = "O atributo nome é obrigatório")
 	@Size(min = 5, max = 100, message = "O atributo nome deve ter no mínimo 05 e no máximo 100 caracteres")
 	private String nome;
 
@@ -41,15 +40,16 @@ public class Usuario {
 	private String usuario;
 
 	@NotNull(message = "O atributo senha é obrigatório")
-	@Size(min = 8, message = "O atributo senha deve ter no mínimo 8 caracteres")
+	@Size(min = 3, message = "O atributo senha deve ter no mínimo 3 caracteres")
 	private String senha;
 
 	@Column(name = "dt_nascimento")
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate dataNascimento;
+
 	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
-	private List<Postagem> postagem;
+	private List<Postagem> postagens = new ArrayList<>();
 
 	// Primeiro método Construtor - Com os atributos
 	public Usuario(long id, String nome, String usuario, String senha, LocalDate dataNascimento) {
@@ -59,15 +59,15 @@ public class Usuario {
 		this.senha = senha;
 		this.dataNascimento = dataNascimento;
 	}
-	
-	
-	public Usuario(@NotNull String usuario, @NotNull String senha) {
-		this.usuario = usuario;
-		this.senha = senha;
-	}
 
 	// Segundo método Construtor - Sem os atributos
 	public Usuario() {
+	}
+
+	// Terceiro método Construtor - Apenas email e senha
+	public Usuario(@NotNull String usuario, @NotNull String senha) {
+		this.usuario = usuario;
+		this.senha = senha;
 	}
 
 	public long getId() {
@@ -111,11 +111,11 @@ public class Usuario {
 	}
 
 	public List<Postagem> getPostagem() {
-		return this.postagem;
+		return this.postagens;
 	}
 
 	public void setPostagem(List<Postagem> postagem) {
-		this.postagem = postagem;
+		this.postagens = postagem;
 	}
 
 }
