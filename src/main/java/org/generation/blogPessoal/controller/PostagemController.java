@@ -74,12 +74,13 @@ public class PostagemController {
 
 	@PostMapping("/save")
 	public ResponseEntity<Postagem> post(@RequestBody Postagem postagem) {
-		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(postagem));
+		return ResponseEntity.status(HttpStatus.CREATED)
+				.body(repository.save(postagem));
 	}
 
 	@PutMapping("/update")
 	public ResponseEntity<Postagem> put(@RequestBody Postagem postagem) {
-		return ResponseEntity.status(HttpStatus.OK).body(repository.save(postagem));
+		return ResponseEntity.ok(repository.save(postagem));
 	}
 
 	@DeleteMapping("/delete/{id}")
