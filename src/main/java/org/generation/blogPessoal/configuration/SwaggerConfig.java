@@ -20,7 +20,7 @@ public class SwaggerConfig {
 	@Bean
 	public Docket api() {
 		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("br.org.generation.blogpessoal.controller"))
+				.apis(RequestHandlerSelectors.basePackage("org.generation.blogPessoal.controller"))
 				.paths(PathSelectors.any()).build().apiInfo(metadata()).useDefaultResponseMessages(false)
 				.globalResponses(HttpMethod.GET, responseMessage()).globalResponses(HttpMethod.POST, responseMessage())
 				.globalResponses(HttpMethod.PUT, responseMessage())
@@ -29,12 +29,12 @@ public class SwaggerConfig {
 
 	public static ApiInfo metadata() {
 		return new ApiInfoBuilder().title("API - Blog Pessoal").description("Projeto API Spring - Blog Pessoal")
-				.version("1.0.0").license("Apache License Version 2.0").licenseUrl("https://github.com/rafaelq80")
+				.version("1.0.0").license("Apache License Version 2.0").licenseUrl("https://github.com/Wendell2509")
 				.contact(contact()).build();
 	}
 
 	private static Contact contact() {
-		return new Contact("Rafael Queiróz", "https://github.com/rafaelq80", "rafaelproinfo@gmail.com");
+		return new Contact("Wendell Franco", "https://github.com/Wendell2509", "wendellfranco99@gmail.com");
 	}
 
 	private static List<Response> responseMessage() {
