@@ -17,16 +17,32 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository repository;
 
-	public Usuario CadastrarUsuario(Usuario usuario) {
+	private static String encriptadorDeSenha(String senha) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-
-		String senhaEncoder = encoder.encode(usuario.getSenha());
-		usuario.setSenha(senhaEncoder);
-
-		return repository.save(usuario);
+		return encoder.encode(senha);
+	}
+	
+	
+	public Optional<Object> cadastrarUsuario(Usuario usuario) {
+		return repository.findByUsuario(usuario.getUsuario()).map(usuarioExistente -> {
+			return Optional.empty();
+		}).orElseGet(() -> {
+			usuario.setSenha(encriptadorDeSenha(usuario.getSenha()));
+			return Optional.ofNullable(repository.save(usuario));
+		});
+	}
+	
+	public Optional<Usuario> atualizarUsuario(Usuario usuario){
+		return repository.findById(usuario.getId()).map(usuarioExistente -> {
+			usuarioExistente.setNome(usuario.getNome());
+			usuarioExistente.setSenha(encriptadorDeSenha(usuario.getSenha()));
+			return Optional.ofNullable(repository.save(usuarioExistente));
+		}).orElseGet(() -> {
+			return Optional.empty();
+		});
 	}
 
-	public Optional<UsuarioLogin> Logar(Optional<UsuarioLogin> user) {
+	public Optional<UsuarioLogin> logar(Optional<UsuarioLogin> user) {
 
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		Optional<Usuario> usuario = repository.findByUsuario(user.get().getUsuario());
