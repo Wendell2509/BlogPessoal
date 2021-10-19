@@ -18,7 +18,12 @@
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
-	
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-boot-starter</artifactId>
